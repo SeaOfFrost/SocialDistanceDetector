@@ -59,31 +59,17 @@ def birdseye_nodes(frame, pedestrian_boxes, frame_map):
         warped_pt_scaled = [int(warped_pt[0] * scale_w), int(warped_pt[1] * scale_h)]
 
         warped_pts.append(warped_pt_scaled)
-        birdseye_frame = cv2.circle(blank_image,(warped_pt_scaled[0], warped_pt_scaled[1]),node_radius,g_color_node,thickness_node,)
+        birdseye_frame = cv2.circle(blank_image,(warped_pt_scaled[0], warped_pt_scaled[1]),node_radius,g_color_node,thickness_node)
 
-        dist_mat = pdist(np.array(warped_pts), metric  ="Euclidean")
-        node_dist = squareform(dist_mat)
+    p1, p2 = compute_violations(warped_pts)
 
-        dd = np.where(node_dist < birdseye_thresh)
-    	close_p = []
-    	color_10 = (255,0,0)
-    	lineThickness = 4
-    	violations = len(np.where(dist_mat < birdseye_thresh)[0])
-    	for i in range(int(np.ceil(len(dd[0]) / 2))):
-        	if dd[0][i] != dd[1][i]:
-            	point1 = dd[0][i]
-            	point2 = dd[1][i]
+    violations_ind = np.unique(p1+p2)
+    violations_x = warped_pts[violations_ind][0]
+	violations_y = warped_pts[violations_ind][1]
+	
+	birdseye_frame = cv2.circle(blank_image,(violations_x, violations_y),node_radius,r_color_node,thickness_node)        
 
-            	close_p.append([point1, point2])
-
-            	cv2.line(bird_image,(p[point1][0], p[point1][1]),(p[point2][0], p[point2][1]),color_10,lineThickness)
-            	
-        birdseye_frame = cv2.circle(blank_image,(close_p[0], close_p[1]),node_radius,r_color_node,thickness_node,)
-
-
-        
-
-    return warped_pts, birdseye_frame
+    return birdseye_frame
 
 
 
