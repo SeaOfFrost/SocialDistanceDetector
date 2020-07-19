@@ -50,7 +50,7 @@ global frame_num
 frame_num =1
 img = cv2.imread('lol.png')
 outputs = predictor(img)
-image_detection(img, outputs, 'basic')
+image_detection(img, outputs, 'basic', frame_num)
 '''
 Add code here for video input
 '''
