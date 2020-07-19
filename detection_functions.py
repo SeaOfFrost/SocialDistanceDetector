@@ -3,7 +3,7 @@ from distance_functions import *
 from birds_eye import *
 import matplotlib.pyplot as plt
 
-def image_detection(img, outputs, distance_method):
+def image_detection(img, outputs, distance_method, frame_num):
     classes = outputs['instances'].pred_classes.cpu().numpy()
     # Get the output boxes, for more info look here: https://detectron2.readthedocs.io/tutorials/models.html#model-output-format
     bbox = outputs['instances'].pred_boxes.tensor.cpu().numpy()
