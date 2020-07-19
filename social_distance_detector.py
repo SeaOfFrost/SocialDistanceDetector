@@ -40,11 +40,15 @@ elif args["detection_method"] == "RetinaNet": # Inference time -- 0.056
 '''
 Add code here for YOLO
 '''
-
+'''
 if args["input"] == "image":
     img = cv2.imread(args["path"])
     outputs = predictor(img)
     image_detection(img, outputs, args["distance_method"])
+'''
+img = cv2.imread('lol.png')
+outputs = predictor(img)
+image_detection(img, outputs, 'basic')
 '''
 Add code here for video input
 '''
