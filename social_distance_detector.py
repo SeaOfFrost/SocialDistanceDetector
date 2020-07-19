@@ -46,6 +46,8 @@ if args["input"] == "image":
     outputs = predictor(img)
     image_detection(img, outputs, args["distance_method"])
 '''
+global frame_num
+frame_num =1
 img = cv2.imread('lol.png')
 outputs = predictor(img)
 image_detection(img, outputs, 'basic')
