@@ -25,13 +25,13 @@ def birdseye_plot(frm1):
     height =frm1.shape[0]
     width = frm1.shape[1]
     
-    cv2.namedWindow('frm1', frm1)
-    cv2.setMouseCallback('frm1',inp_pts(frm1))
+    cv2.namedWindow('frame', frm1)
+    cv2.setMouseCallback('frame',inp_pts(frm1))
     while True:
-    	cv2.imshow('frm1',frm1)
+    	cv2.imshow('fame',frm1)
     	cv2.waitKey(1)
     	if len(box_pts) == 5:
-    	    cv2.destroyWindow("frm1")
+    	    cv2.destroyWindow("frame")
     	    break
     frame_map = birdseye_pers(frm1, box_pts)
 
