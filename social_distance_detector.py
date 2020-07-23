@@ -41,16 +41,29 @@ elif args["detection_method"] == "RetinaNet": # Inference time -- 0.056
 Add code here for YOLO
 '''
 '''
-if args["input"] == "image":
-    img = cv2.imread(args["path"])
-    outputs = predictor(img)
-    image_detection(img, outputs, args["distance_method"])
-'''
 global frame_num
 frame_num =1
 img = cv2.imread('lol.png')
 outputs = predictor(img)
 image_detection(img, outputs, 'basic', frame_num)
 '''
-Add code here for video input
-'''
+global frame_num
+frame_num = 1
+if args["input"] == "image":
+    img = cv2.imread(args["path"])
+    outputs = predictor(img)
+    image_detection(img, outputs, args["distance_method"], frame_num)
+elif args["input"] == "video":
+    cap = cv2.VideoCapture(args["path"])
+    skip_frame = 1 # Frames to skip for faster real-time output
+    while (cap.isOpened()): 
+        ct += 1
+        if ct % skip_frame == 0: # skip some frames
+            ret, frame = cap.read()
+            if not ret: break 
+            outputs = predictor(frame)
+            image_detection(img, outputs, args["distance_method"], frame_num)
+            cv2.imshow('Frame', frame)
+        cv2.waitKey(1)
+    cap.release()
+    cv2.destroyAllWindows()

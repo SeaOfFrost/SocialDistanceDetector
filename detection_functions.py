@@ -13,22 +13,19 @@ def image_detection(img, outputs, distance_method, frame_num):
     bbox = outputs['instances'].pred_boxes.tensor.cpu().numpy()
     num_persons = len(persons)
     
-    #Code to get coordinates of base rectangle for transformation
-    if frame_num == 1:
-        birdseye_map = birdseye_plot(img)
-
     # Find distance between people
     midpoints = [mid_point(img, persons, i) for i in range(len(persons))] 
     if distance_method == "basic":
         p1, p2 = compute_violations(midpoints)
-        img = change_to_red(img, persons, p1, p2)
-        
-    #Code for the bird's eye transformation method
-    birds_plot = birdseye_nodes(midpoints, birdseye_map)
-    
-    
+    elif distance_method == "birdseye":
+        #Code to get coordinates of base rectangle for transformation
+        if frame_num == 1:
+            birdseye_map = birdseye_plot(img)
+            frame_num += 1   
+        #Code for the bird's eye transformation method
+        birds_plot, p1, p2 = birdseye_nodes(midpoints, birdseye_map)
+        plt.figure(figsize = (20, 10))
+        plt.imshow(birds_plot)
+    img = change_to_red(img, persons, p1, p2)
     plt.figure(figsize = (20, 10))
     plt.imshow(img)
-    
-    plt.figure(figsize = (20, 10))
-    plt.imshow(birds_plot)

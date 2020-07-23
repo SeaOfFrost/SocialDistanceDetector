@@ -67,7 +67,7 @@ def birdseye_nodes(midpoints, frame_map):
     
     birdseye_frame = cv2.circle(blank_image,(violations_x, violations_y),node_radius,r_color_node,thickness_node)        
 
-    return birdseye_frame
+    return birdseye_frame, p1, p2
 
 
 
